@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_类中的方法this的指向</title>
+</head>
+<body>
+    <script type="text/javascript">
+        class Person {
+            constructor (name, age) {
+                this.name = name
+                this.age = age
+            }
+
+            // 类中所定义的方法，在局部开启了严格模式
+            speak () { 
+                // speak 放在哪里？-- Weather 的原型对象上，供实例使用
+                // 通过 Person 实例调用 speak 时，speak 中的this就是 Person实例
+                
+                console.log(this);
+            }
+        }
+
+        const p1 = new Person('Tom', 18)
+        p1.speak()
+        const x = p1.speak // 通过实例调用 speak 方法
+        x()
+    </script>
+</body>
+</html>

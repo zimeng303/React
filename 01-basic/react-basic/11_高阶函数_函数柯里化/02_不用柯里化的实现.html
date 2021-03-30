@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_不用柯里化的实现</title>
+</head>
+
+<body>
+    <!-- 准备好一个 “容器” -->
+    <div id="test"></div>
+
+    <!-- 引入react 核心库，返回 React 对象 -->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom.js，用于支持react 操作 DOM，依赖react核心库，返回 ReactDOM 对象 -->
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入 babel，用于将 jsx 转换为 js -->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+         //#region
+            /*
+                高阶函数：如果一个函数符合下面2个规范中的任何一个，那该函数就是高阶函数
+                        1. 若 A 函数，接收的参数是一个函数，那么 A 就可以称之为 高阶函数
+                        2. 若 A 函数，调用的返回值依然是一个函数，那么 A 就可以称之为 高阶函数
+                        常见的高阶函数有：Promise、setTimeout、arr.map() 等等
+
+                函数的柯里化：通过函数调用继续返回函数的方式，实现多次接收参数，最后统一处理的函数编码形式
+
+                function sum (a) {
+                    return (b) => {
+                        return (c) => {
+                        return a + b + c
+                        }
+                    }
+                }
+                const result = sum(1)(2)(3)
+            */
+        //#endregion
+        // 1. 创建组件
+        class Login extends React.Component {
+            // 初始化状态
+            state = {
+                username: '', // 用户名
+                password: '' // 密码
+            }
+
+            handleSubmit = (event) => {
+                // 阻止表单提交
+                event.preventDefault();
+
+                const { username, password } = this.state
+                alert(`你输入的用户名是${username}，你输入的密码是${password}`)
+            }
+
+            // 保存表单数据到状态中
+            saveFormData = (dataType, event) => {
+                this.setState({ [dataType]: event.target.value })
+            }
+
+            render() {
+                return (
+                    <form onSubmit={this.handleSubmit}>
+                        {/* onChange 自动执行的是一个回调函数，因此 this.saveFormData('username') 必须要返回一个函数*/}
+                    用户名：<input onChange={event => this.saveFormData('username', event)} type="text" name="username" />
+                        <br /><br />
+                    密&emsp;码：<input onChange={event => this.saveFormData('password', event)} type="password" name="password" />
+                        <br /><br />
+                        <button>登录</button>
+                    </form>
+                )
+            }
+        }
+        ReactDOM.render(<Login />, document.getElementById('test'))
+    </script>
+</body>
+
+</html>

@@ -97,6 +97,22 @@
 * 1，`history` 对象
 * 2，`match` 对象
 * 3，`withRouter` 函数
+  * withRouter 可以加工一般组件，让一般组件具备路由组件所特有的 API（history、match、location）
+  * withRouter 的返回值是一个新组件
+
+## BrowserRouter与HashRouter的区别
+
+* 1，底层原理不一样：
+  * `BrowserRouter` 使用的是 H5 的 `history` API，不兼容IE9及以下版本。
+  * `HashRouter` 使用的是URL的哈希值。
+* 2，path 表现形式不一样
+  * `BrowserRouter` 的路径中没有 #，例如：localhost:3000/demo/test
+  * `HashRouter` 的路径包含#，例如：localhost:3000/#/demo/test
+* 3，刷新后对路由 state 参数的影响
+  * 1）`BrowserRouter` 没有任何影响，因为 state 保存在 history 对象中。
+  * 2）<font color="#f00">`HashRouter` 刷新后会导致路由 state 参数的丢失！！！</font>
+* 4，备注：
+  * `HashRouter` 可以用于解决一些路径错误相关的问题。
 
 # 路由组件与一般组件
 
@@ -130,7 +146,7 @@
 
 **案例效果**
 
-​								![](F:\ReactJs\02-create-react-app\assets\react-router demo1.gif)                      
+​						![](E:\React\02-create-react-app\assets\react-router demo1.gif)                  
 
  **准备工作**
 
@@ -190,7 +206,7 @@
 
 **案例效果**
 
-![](F:\ReactJs\02-create-react-app\assets\react-router demo2.gif)
+![](E:\React\02-create-react-app\assets\react-router demo2.gif)
 
 **注意事项**
 
@@ -206,7 +222,7 @@
 
 **案例效果**
 
-![](F:\ReactJs\02-create-react-app\assets\react-router demo3.gif)
+![](E:\React\02-create-react-app\assets\react-router demo3.gif)
 
 **向路由组件传递 params 参数**
 
@@ -274,4 +290,14 @@
 
 **案例效果**
 
-![](F:\ReactJs\02-create-react-app\assets\react-router demo4.gif)
+![](E:\React\02-create-react-app\assets\react-router demo4.gif)
+
+**编程式路由导航**
+
+ 借助 `this.props.history` 对象上的API对操作路由跳转、前进、后退
+
+- `this.props.history.(path, [state])`：在 history 堆栈添加一个新条目，会保存原先的路由跳转痕迹
+- `this.props.history.replace(path, [state])`：替换在 history 堆栈中的当前条目，不会保存原先的路由跳转痕迹
+- `this.props.history.go(n)`：将 history 堆栈中的指针调整 `n`，指定回退到前面的第 `n` 个路由地址，参数是数字
+- `this.props.history.goBack()`：回退到上一个路由地址，等同于 `go(-1)`
+- `this.props.history.goForward()`：跳转到下一个路由地址，等同于 `go(1)`
